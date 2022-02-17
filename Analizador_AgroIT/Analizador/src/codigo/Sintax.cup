@@ -1,0 +1,850 @@
+package codigo;
+import java_cup.runtime.Symbol;
+
+action code{:
+    JFprincipal A=new JFprincipal();    
+:}
+
+parser code
+{:
+    private Symbol s;
+    public void syntax_error(Symbol s){
+        this.s = s;
+    }
+
+    public Symbol getS(){
+        return this.s;
+}
+:};
+
+terminal Reservadas, Iniciar, Inverna, Dero, Comenzar, Terminar, Comprobar,
+    Rutina, Temperatura, Humedad, Luz, Luminosidad, Si, No, Complemento,
+    Durante, Siempre, Min, Hr, Grados, Vaho, Temperatura_actual,
+    Minimo, Maximo, Incrementar, Decrementar, Volumen, Musica, Detener, Pausar,
+    Posicion, Continuar, Fertilizante, Fertliq, Fertsol, Cordx, Cordy, Por,
+    Repetir, Empezar, Riego, Liquido, Mas, Menos, Sector, Tipo,
+    Suma, Resta, Multiplicacion, Division, Identificador, Numero, COMA, Reproducir,
+    Op_aritmeticos, Signo_Agrupacion, Operador_relacional, Signo_Puntuacion, CaracterEs,
+    Menor_que, Mayor_que, Igual, Menor_igual, Mayor_igual, Igual_igual, Parentesis_a, Parentesis_c,
+    Llaves_a, Llaves_c, Corchete_a, Corchete_c, ERROR, ERROR2, ERROR3, ERROR4, ERROR5, ERROR6, ERROR7;
+
+non terminal INICIO, DECLARACION_VARIABLE, ASIG_DATOS, SENTENCIA_INV, PARENTESIS_ERROR, LLAVES_ERROR,
+    ASIG_MUSICA, ASIG_RIEGO, ASIG_LUMINOCIDAD, ASIG_FERTILIZANTE, TIPO_FERT, PARENTESIS_ERROR3,
+    INVERNADERO, RUTINA, RUTINA_REPETIR, COMPROB, COMPROBACION, TIPO_HORA,VERDIS, PARENTESIS_ERROR2,
+    RUTINA_COM, CONDICION, SENTENCIA_RUT, Tipo_dato, DATOS_VAR, SINO, CALIS, CALISS, CALISSS, CALISSSS;
+
+start with INICIO
+;
+INICIO ::=
+    Inverna Llaves_a INVERNADERO Llaves_c Dero|
+
+
+Inverna INVERNADERO Llaves_c Dero
+    :s{:A.genErrores.add("Error sintáctico, LINEA: "+(sright+1)+"\n \t Error: Se epsera llave que cierra ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Inverna Llaves_a INVERNADERO Dero
+    :s{:A.genErrores.add("Error sintáctico, LINEA: "+(sright+1)+"\n \t Error: se espera llava que cierra ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Inverna INVERNADERO Dero
+    :s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: faltan llaves de apertura y cierre ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Llaves_a INVERNADERO Llaves_c Dero
+    :s{:A.genErrores.add("Error sintáctico, LINEA: "+(sright+1)+"\n \t Error: Falta inicio de programa 'inverna'");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Inverna Llaves_a INVERNADERO Llaves_c
+    :s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Falta cierre de programa 'dero'");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Llaves_a INVERNADERO Llaves_c Dero 
+    :s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Se esperaba la palabra reservada inverna");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Inverna Llaves_a INVERNADERO Llaves_c Identificador
+    :s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Se esperaba la palabra reservada dero ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Llaves_a INVERNADERO Llaves_c Identificador
+    :s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 01");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Llaves_a INVERNADERO Llaves_c Identificador
+    :s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 02");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Llaves_a INVERNADERO Llaves_c
+    :s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 03");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Llaves_a INVERNADERO Llaves_c
+    :s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 04");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Inverna Llaves_a INVERNADERO Llaves_c Numero
+    :s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Se espera la palabra reservada dero ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Numero Llaves_a INVERNADERO Llaves_c Numero
+    :s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 04");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Llaves_a INVERNADERO Llaves_c Numero
+    :s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura espera dero");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Numero Llaves_a INVERNADERO Llaves_c
+    :s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 05");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Numero Llaves_a INVERNADERO Llaves_c Identificador
+    :s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 07");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Llaves_a INVERNADERO Llaves_c Numero
+    :s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 08");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+
+
+Inverna PARENTESIS_ERROR INVERNADERO Llaves_c Dero|
+Inverna Llaves_a INVERNADERO PARENTESIS_ERROR Dero|
+Inverna PARENTESIS_ERROR INVERNADERO PARENTESIS_ERROR Dero
+;
+
+PARENTESIS_ERROR ::=
+
+Parentesis_a
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta operador no valido");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta operador no valido");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Llaves_a Llaves_a
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta operador no valido");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Llaves_a Llaves_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta operador no valido");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Llaves_c Llaves_a
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta operador no valido");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Llaves_c Llaves_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta operador no valido");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Corchete_a
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta operador no valido");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Corchete_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta operador no valido");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}
+;
+
+
+
+INVERNADERO ::=
+Iniciar Identificador Llaves_a DECLARACION_VARIABLE Llaves_c |
+Iniciar Identificador Llaves_a DECLARACION_VARIABLE Llaves_c INVERNADERO |
+
+Identificador Llaves_a DECLARACION_VARIABLE Llaves_c INVERNADERO
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t ErrorSe espera la palabra reservada iniciar");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Iniciar Llaves_a DECLARACION_VARIABLE Llaves_c INVERNADERO
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Se espera un identificador despies de iniciar");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Iniciar Identificador DECLARACION_VARIABLE Llaves_c INVERNADERO
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se esperaba llave '{' ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Identificador Llaves_a DECLARACION_VARIABLE Llaves_c INVERNADERO
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura invalidad revise manual 09");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Numero Identificador Llaves_a DECLARACION_VARIABLE Llaves_c INVERNADERO
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura invalidad revise manual 10");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Iniciar Identificador PARENTESIS_ERROR2 DECLARACION_VARIABLE Llaves_c |
+Iniciar Identificador Llaves_c DECLARACION_VARIABLE PARENTESIS_ERROR2 |
+Iniciar Identificador PARENTESIS_ERROR2 DECLARACION_VARIABLE PARENTESIS_ERROR2 |
+Identificador PARENTESIS_ERROR2 DECLARACION_VARIABLE Llaves_c |
+Identificador Llaves_a DECLARACION_VARIABLE PARENTESIS_ERROR2 |
+Iniciar PARENTESIS_ERROR2 DECLARACION_VARIABLE Llaves_c |
+Iniciar Llaves_a DECLARACION_VARIABLE PARENTESIS_ERROR2 |
+Iniciar Identificador DECLARACION_VARIABLE PARENTESIS_ERROR2 |
+Identificador Identificador PARENTESIS_ERROR2 DECLARACION_VARIABLE Llaves_c |
+Identificador Identificador Llaves_a DECLARACION_VARIABLE PARENTESIS_ERROR2 |
+Numero Identificador PARENTESIS_ERROR2 DECLARACION_VARIABLE Llaves_c |
+Numero Identificador Llaves_a DECLARACION_VARIABLE PARENTESIS_ERROR2 |
+
+Iniciar Identificador PARENTESIS_ERROR2 DECLARACION_VARIABLE Llaves_c INVERNADERO|
+Iniciar Identificador Llaves_c DECLARACION_VARIABLE PARENTESIS_ERROR2 INVERNADERO|
+Iniciar Identificador PARENTESIS_ERROR2 DECLARACION_VARIABLE PARENTESIS_ERROR2 INVERNADERO|
+Identificador PARENTESIS_ERROR2 DECLARACION_VARIABLE Llaves_c INVERNADERO|
+Identificador Llaves_a DECLARACION_VARIABLE PARENTESIS_ERROR2 INVERNADERO|
+Iniciar PARENTESIS_ERROR2 DECLARACION_VARIABLE Llaves_c INVERNADERO|
+Iniciar Llaves_a DECLARACION_VARIABLE PARENTESIS_ERROR2 INVERNADERO|
+Iniciar Identificador DECLARACION_VARIABLE PARENTESIS_ERROR2 INVERNADERO|
+Identificador Identificador PARENTESIS_ERROR2 DECLARACION_VARIABLE Llaves_c INVERNADERO|
+Identificador Identificador Llaves_a DECLARACION_VARIABLE PARENTESIS_ERROR2 INVERNADERO|
+Numero Identificador PARENTESIS_ERROR2 DECLARACION_VARIABLE Llaves_c INVERNADERO|
+Numero Identificador Llaves_a DECLARACION_VARIABLE PARENTESIS_ERROR2 INVERNADERO
+;
+
+PARENTESIS_ERROR2 ::=
+
+Parentesis_a
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta operador no valido");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta operador no valido");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Corchete_a
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta operador no valido");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Corchete_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta operador no valido");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}
+;
+
+
+DECLARACION_VARIABLE ::=
+
+Tipo_dato Identificador DECLARACION_VARIABLE |
+RUTINA |
+RUTINA_REPETIR|
+
+Tipo_dato Numero DECLARACION_VARIABLE
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera un identificador");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Identificador DECLARACION_VARIABLE
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera tipo de dato");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Numero Identificador DECLARACION_VARIABLE
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera tipo de dato");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}
+;
+
+RUTINA ::=
+
+Rutina Llaves_a SENTENCIA_RUT Llaves_c|
+Rutina Llaves_a SENTENCIA_RUT Llaves_c RUTINA|
+Rutina Llaves_a SENTENCIA_RUT Llaves_c RUTINA_REPETIR|
+
+Rutina SENTENCIA_RUT Llaves_c RUTINA
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta se espera llave '{' ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Llaves_a SENTENCIA_RUT Llaves_c RUTINA
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual se espera rutina");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Numero Llaves_a SENTENCIA_RUT Llaves_c RUTINA
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 11");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+
+Rutina PARENTESIS_ERROR3 SENTENCIA_RUT Llaves_c |
+Rutina Llaves_a SENTENCIA_RUT PARENTESIS_ERROR3 |
+Rutina PARENTESIS_ERROR3 SENTENCIA_RUT PARENTESIS_ERROR3
+
+Rutina PARENTESIS_ERROR3 SENTENCIA_RUT Llaves_c RUTINA|
+Rutina Llaves_a SENTENCIA_RUT PARENTESIS_ERROR3 RUTINA|
+Rutina PARENTESIS_ERROR3 SENTENCIA_RUT PARENTESIS_ERROR3 RUTINA|
+
+Rutina PARENTESIS_ERROR3 SENTENCIA_RUT Llaves_c RUTINA_REPETIR|
+Rutina Llaves_a SENTENCIA_RUT PARENTESIS_ERROR3 RUTINA_REPETIR|
+Rutina PARENTESIS_ERROR3 SENTENCIA_RUT PARENTESIS_ERROR3 RUTINA_REPETIR
+;
+
+PARENTESIS_ERROR3 ::=
+
+Llaves_a Llaves_a
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta operador no valido");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Llaves_a Llaves_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta operador no valido");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Llaves_c Llaves_a
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta operador no valido");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Corchete_a
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta operador no valido");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Corchete_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta operador no valido");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}
+;
+
+
+Tipo_dato ::=
+Grados | Vaho | Luz | Volumen | Musica
+;
+
+TIPO_HORA ::=
+Hr | Min
+;
+
+
+
+RUTINA_REPETIR ::=
+
+Rutina Llaves_a SENTENCIA_RUT Llaves_c Repetir Numero TIPO_HORA RUTINA|
+Rutina Llaves_a SENTENCIA_RUT Llaves_c Repetir Numero TIPO_HORA RUTINA_REPETIR|
+Rutina Llaves_a SENTENCIA_RUT Llaves_c Repetir Numero TIPO_HORA|
+
+Rutina SENTENCIA_RUT Llaves_c Repetir Numero TIPO_HORA
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error:  Estructura incorrecta se espera llave '{' ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+
+Rutina Llaves_a SENTENCIA_RUT Repetir Numero TIPO_HORA
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error:  Estructura incorrecta se espera llave '}' ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Rutina Llaves_a SENTENCIA_RUT Llaves_c Numero TIPO_HORA
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Se espera la palabra reservada repetir antes del numero");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Rutina Llaves_a SENTENCIA_RUT Llaves_c Repetir TIPO_HORA
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Se espera Numero despues de la palabra reservada repetir");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Llaves_a SENTENCIA_RUT Llaves_c Repetir Numero TIPO_HORA
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera la palabra reservafda rutina ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Rutina Llaves_a SENTENCIA_RUT Llaves_c Identificador Numero TIPO_HORA
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Ese espera la palabra reservada repetir");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Rutina Llaves_a SENTENCIA_RUT Llaves_c Repetir Identificador TIPO_HORA
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Tipo de hora no valida se espera 'hr' o 'min'");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Llaves_a SENTENCIA_RUT Llaves_c Identificador Numero TIPO_HORA
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta se espera rutina 12");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Llaves_a SENTENCIA_RUT Llaves_c Repetir Identificador TIPO_HORA
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta se espera rutina 13");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Rutina Llaves_a SENTENCIA_RUT Llaves_c Identificador Identificador TIPO_HORA
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 14");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Llaves_a SENTENCIA_RUT Llaves_c Identificador Identificador TIPO_HORA
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 15");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Numero Llaves_a SENTENCIA_RUT Llaves_c Repetir Numero TIPO_HORA
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 16");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Rutina Llaves_a SENTENCIA_RUT Llaves_c Numero Numero TIPO_HORA
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 17");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Numero Llaves_a SENTENCIA_RUT Llaves_c Numero Numero TIPO_HORA
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 18");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Rutina PARENTESIS_ERROR3 SENTENCIA_RUT Llaves_c Repetir Numero TIPO_HORA |
+Rutina Llaves_a SENTENCIA_RUT PARENTESIS_ERROR3 Repetir Numero TIPO_HORA |
+Rutina PARENTESIS_ERROR3 SENTENCIA_RUT PARENTESIS_ERROR3 Repetir Numero TIPO_HORA
+
+Rutina PARENTESIS_ERROR3 SENTENCIA_RUT Llaves_c Repetir Numero TIPO_HORA RUTINA|
+Rutina Llaves_a SENTENCIA_RUT PARENTESIS_ERROR3 Repetir Numero TIPO_HORA RUTINA|
+Rutina PARENTESIS_ERROR3 SENTENCIA_RUT PARENTESIS_ERROR3 Repetir Numero TIPO_HORA RUTINA|
+
+Rutina PARENTESIS_ERROR3 SENTENCIA_RUT Llaves_c Repetir Numero TIPO_HORA RUTINA_REPETIR|
+Rutina Llaves_a SENTENCIA_RUT PARENTESIS_ERROR3 Repetir Numero TIPO_HORA RUTINA_REPETIR|
+Rutina PARENTESIS_ERROR3 SENTENCIA_RUT PARENTESIS_ERROR3 Repetir Numero TIPO_HORA RUTINA_REPETIR
+;
+
+SENTENCIA_RUT ::=
+
+ASIG_DATOS | ASIG_RIEGO | ASIG_LUMINOCIDAD | ASIG_FERTILIZANTE | COMPROB | ASIG_MUSICA
+;
+
+ASIG_DATOS ::=
+
+Identificador Igual Numero SENTENCIA_RUT |
+Identificador Igual Numero|
+
+Numero Igual Numero
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera un identificador antes del igual");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador COMPROBACION Numero
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Operacion no valida se espera un igual '='");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Igual Identificador
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera un numero despues del igual");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Igual Numero
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera un identificador");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Numero
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta se espera un = ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Igual 
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera un numero ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}
+;
+
+COMPROBACION ::=
+    Mayor_que | Menor_que | Igual_igual | Menor_igual | Mayor_igual
+;
+
+ASIG_RIEGO ::=
+
+Riego Parentesis_a Durante Numero TIPO_HORA COMA Empezar Numero TIPO_HORA Parentesis_c SENTENCIA_RUT|
+Riego Parentesis_a Durante Numero TIPO_HORA COMA Empezar Numero TIPO_HORA Parentesis_c|
+
+Parentesis_a Durante Numero TIPO_HORA COMA Empezar Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Se esperaba la palabra reservada riego");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Riego Durante Numero TIPO_HORA COMA Empezar Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Se requiere paréntesis que abre");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Riego Parentesis_a Numero TIPO_HORA COMA Empezar Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error:  Se esperaba la palabra reservada durante");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Riego Parentesis_a Durante TIPO_HORA COMA Empezar Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Se esperaba un número");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Riego Parentesis_a Durante Numero TIPO_HORA Empezar Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Se requieren dos parámetros");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Riego Parentesis_a Durante Numero TIPO_HORA COMA Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Se requieren palabra reservada empezar");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Riego Parentesis_a Durante Numero TIPO_HORA COMA Empezar TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Se esperaba un número");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Parentesis_a Durante Numero TIPO_HORA COMA Empezar Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 01");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Riego Parentesis_a Identificador Numero TIPO_HORA COMA Empezar Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manua 01l");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Riego Parentesis_a Durante Identificador TIPO_HORA COMA Empezar Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manua 01l");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Riego Parentesis_a Durante Numero TIPO_HORA COMA Identificador Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manua 02l");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Riego Parentesis_a Durante Numero TIPO_HORA COMA Empezar Identificador TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 01");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Parentesis_a Identificador Numero TIPO_HORA COMA Empezar Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 03");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Parentesis_a Durante Identificador TIPO_HORA COMA Empezar Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 03");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Parentesis_a Durante Numero TIPO_HORA COMA Identificador Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manua 03");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Parentesis_a Durante Numero TIPO_HORA COMA Empezar Identificador TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 04");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Riego Parentesis_a Identificador Identificador TIPO_HORA COMA Empezar Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 01");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Riego Parentesis_a Identificador Numero TIPO_HORA COMA Identificador Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 01");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Riego Parentesis_a Identificador Numero TIPO_HORA COMA Empezar Identificador TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 01");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Riego Parentesis_a Durante Identificador TIPO_HORA COMA Identificador Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual  01");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Riego Parentesis_a Durante Identificador TIPO_HORA COMA Empezar Identificador TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 01");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Riego Parentesis_a Durante Numero TIPO_HORA COMA Identificador Identificador TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 03");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Parentesis_a Identificador Identificador TIPO_HORA COMA Empezar Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 01");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Parentesis_a Identificador Numero TIPO_HORA COMA Identificador Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 01");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Parentesis_a Identificador Numero TIPO_HORA COMA Empezar Identificador TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 01");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Parentesis_a Durante Identificador TIPO_HORA COMA Empezar Identificador TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 02");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Parentesis_a Durante Numero TIPO_HORA COMA Identificador Identificador TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 03");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Riego Parentesis_a Identificador Numero TIPO_HORA COMA Identificador Identificador TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 03");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Riego Parentesis_a Durante Identificador TIPO_HORA COMA Identificador Identificador TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 01");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Parentesis_a Identificador Identificador TIPO_HORA COMA Identificador Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 01");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Parentesis_a Identificador Identificador TIPO_HORA COMA Empezar Identificador TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 01");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Parentesis_a Identificador Numero TIPO_HORA COMA Identificador Identificador TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 01");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Parentesis_a Durante Identificador TIPO_HORA COMA Identificador Identificador TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 02");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Riego Parentesis_a Identificador Identificador TIPO_HORA COMA Identificador Identificador TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 01");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Parentesis_a Identificador Identificador TIPO_HORA COMA Identificador Identificador TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 01");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Riego LLAVES_ERROR Durante Numero TIPO_HORA COMA Empezar Numero TIPO_HORA Parentesis_c|
+Riego Parentesis_a Durante Numero TIPO_HORA COMA Empezar Numero TIPO_HORA LLAVES_ERROR|
+Riego LLAVES_ERROR Durante Numero TIPO_HORA COMA Empezar Numero TIPO_HORA LLAVES_ERROR|
+Riego LLAVES_ERROR Durante Numero TIPO_HORA COMA Empezar Numero TIPO_HORA Parentesis_c SENTENCIA_RUT|
+Riego Parentesis_a Durante Numero TIPO_HORA COMA Empezar Numero TIPO_HORA LLAVES_ERROR SENTENCIA_RUT|
+Riego LLAVES_ERROR Durante Numero TIPO_HORA COMA Empezar Numero TIPO_HORA LLAVES_ERROR SENTENCIA_RUT
+;
+
+ASIG_LUMINOCIDAD ::=
+
+Luminosidad Parentesis_a SINO COMA Complemento Parentesis_c SENTENCIA_RUT |
+Luminosidad Parentesis_a SINO COMA Complemento Parentesis_c|
+
+Parentesis_a SINO COMA Complemento Parentesis_c SENTENCIA_RUT 
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera palabra reservada luminosidad");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Luminosidad SINO COMA Complemento Parentesis_c SENTENCIA_RUT 
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta se espera llave '{' ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Luminosidad Parentesis_a SINO Complemento Parentesis_c SENTENCIA_RUT 
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera un ',' antes de complemento");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Luminosidad Parentesis_a SINO COMA Parentesis_c SENTENCIA_RUT 
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera complemento despues de la ',' ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Luminosidad Parentesis_a SINO COMA Complemento SENTENCIA_RUT 
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error:  Estructura incorrecta se espera llave '}'  ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Parentesis_a SINO COMA Complemento Parentesis_c SENTENCIA_RUT 
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta se espera luminosidad");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Luminosidad Parentesis_a SINO COMA Identificador Parentesis_c SENTENCIA_RUT 
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta se espera complemento");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Parentesis_a SINO COMA Identificador Parentesis_c SENTENCIA_RUT 
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 15");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Luminosidad Parentesis_a Identificador COMA Complemento Parentesis_c SENTENCIA_RUT 
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 16");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Luminosidad Parentesis_a Numero COMA Complemento Parentesis_c SENTENCIA_RUT
+    :s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 17");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+
+Luminosidad LLAVES_ERROR SINO COMA Complemento Parentesis_c|
+Luminosidad Parentesis_a SINO COMA Complemento LLAVES_ERROR|
+Luminosidad LLAVES_ERROR SINO COMA Complemento LLAVES_ERROR|
+
+Luminosidad LLAVES_ERROR SINO COMA Complemento Parentesis_c SENTENCIA_RUT|
+Luminosidad Parentesis_a SINO COMA Complemento LLAVES_ERROR SENTENCIA_RUT|
+Luminosidad LLAVES_ERROR SINO COMA Complemento LLAVES_ERROR SENTENCIA_RUT
+
+
+;
+
+ASIG_FERTILIZANTE ::=
+
+Fertilizante Parentesis_a TIPO_FERT COMA Numero TIPO_HORA Parentesis_c SENTENCIA_RUT|
+Fertilizante Parentesis_a TIPO_FERT COMA Numero TIPO_HORA Parentesis_c|
+
+Parentesis_a TIPO_FERT COMA Numero TIPO_HORA Parentesis_c SENTENCIA_RUT
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera la palabra reservada fertilizante ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Fertilizante TIPO_FERT COMA Numero TIPO_HORA Parentesis_c SENTENCIA_RUT
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta se espera parentesis '(' ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Fertilizante Parentesis_a TIPO_FERT Numero TIPO_HORA Parentesis_c SENTENCIA_RUT
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera coma despues del tipo fertilizante ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Fertilizante Parentesis_a TIPO_FERT COMA TIPO_HORA Parentesis_c SENTENCIA_RUT
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera un numero antes del tipo de hora");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+
+Identificador Parentesis_a TIPO_FERT COMA Numero TIPO_HORA Parentesis_c SENTENCIA_RUT
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta se espera 'fertilizante' ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Fertilizante Parentesis_a TIPO_FERT COMA Identificador TIPO_HORA Parentesis_c SENTENCIA_RUT
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera un numero en vez de un identificador");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Parentesis_a TIPO_FERT COMA Identificador TIPO_HORA Parentesis_c SENTENCIA_RUT
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 26");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Parentesis_a Identificador COMA Numero TIPO_HORA Parentesis_c SENTENCIA_RUT
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Despues de parentesis que abre se espera fertliq o fertsol");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Fertilizante Parentesis_a Identificador COMA Numero TIPO_HORA Parentesis_c SENTENCIA_RUT
+    :s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 27");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Fertilizante Parentesis_a Numero COMA Numero TIPO_HORA Parentesis_c SENTENCIA_RUT
+    :s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 28");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}
+;
+
+ASIG_MUSICA ::=
+
+Reproducir Parentesis_a Identificador COMA Numero TIPO_HORA Parentesis_c SENTENCIA_RUT|
+Reproducir Parentesis_a Identificador COMA Numero TIPO_HORA Parentesis_c|
+
+Parentesis_a Identificador COMA Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera palabra reservada reproducir");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Reproducir Identificador COMA Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta se espera parentesis '(' ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Reproducir Parentesis_a COMA Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera un identificador antes de la coma");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Reproducir Parentesis_a Identificador Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera una coma despues del identificador");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Reproducir Parentesis_a Identificador COMA TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera un numero despues de la coma");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Parentesis_a Identificador COMA Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 29");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Reproducir Parentesis_a Identificador COMA Identificador TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 30");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Reproducir Parentesis_a Numero COMA Numero TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 31 ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Parentesis_a Identificador COMA Identificador TIPO_HORA Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 32 ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Reproducir LLAVES_ERROR  Identificador COMA Numero TIPO_HORA Parentesis_c|
+Reproducir Parentesis_a Identificador COMA Numero TIPO_HORA LLAVES_ERROR|
+Reproducir LLAVES_ERROR Identificador COMA Numero TIPO_HORA LLAVES_ERROR|
+
+Reproducir LLAVES_ERROR  Identificador COMA Numero TIPO_HORA Parentesis_c SENTENCIA_RUT|
+Reproducir Parentesis_a Identificador COMA Numero TIPO_HORA LLAVES_ERROR SENTENCIA_RUT|
+Reproducir LLAVES_ERROR Identificador COMA Numero TIPO_HORA LLAVES_ERROR SENTENCIA_RUT
+;
+
+LLAVES_ERROR ::=
+
+Llaves_a
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta operador no valido");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Llaves_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta operador no valido");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Corchete_a
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta operador no valido");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Corchete_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta operador no valido");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}
+;
+
+COMPROB ::=
+
+Comprobar CONDICION Llaves_a RUTINA_COM Llaves_c|
+Comprobar CONDICION Llaves_a RUTINA_COM Llaves_c SENTENCIA_RUT|
+
+CONDICION Llaves_a RUTINA_COM Llaves_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera la palabra reservada comprobar");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Comprobar CONDICION RUTINA_COM Llaves_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta se espera llaves '{' ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador CONDICION Llaves_a RUTINA_COM Llaves_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 33");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}
+;
+
+SINO ::=
+
+Si | No 
+
+;
+
+TIPO_FERT ::=
+
+Fertliq | Fertsol
+;
+
+RUTINA_COM ::=
+
+Rutina Parentesis_a Numero Parentesis_c|
+
+Parentesis_a Numero Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera palabra reservada rutina ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Rutina Numero Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta se espera parentesis '('");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Rutina Parentesis_a Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera un numero dentro de los parentesis");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Rutina Parentesis_a Numero 
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta se espera parentesis ')' ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Parentesis_a Numero Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 34");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Rutina Parentesis_a Identificador Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera un numero dentro de los parentesis");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador Parentesis_a Identificador Parentesis_c
+:s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta revise manual 35");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}
+;
+
+CONDICION ::=
+
+Parentesis_a Identificador COMPROBACION Identificador Parentesis_c|
+Parentesis_a Numero COMPROBACION Identificador Parentesis_c|
+Parentesis_a Identificador COMPROBACION Numero Parentesis_c|
+
+Parentesis_a COMPROBACION Identificador Parentesis_c
+    :s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera identificador antes de comprobacion");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Identificador COMPROBACION Identificador Parentesis_c
+    :s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera un parentesis de apertura '(' ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Parentesis_a Identificador COMPROBACION Parentesis_c
+    :s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera in identificador despues de comprobacion ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Parentesis_a Identificador COMPROBACION Identificador 
+    :s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: se espera un parentesis de cierre ')' ");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}|
+Parentesis_a Identificador Igual Identificador Parentesis_c
+    :s{:A.genErrores.add("Error sintáctico, linea: "+(sright+1)+"\n \t Error: Estructura incorrecta operador no valido");
+    A.genErrores.add("---------------------------------------------------------------------------------");
+    :}
+;
+
+

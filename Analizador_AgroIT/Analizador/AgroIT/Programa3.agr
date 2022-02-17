@@ -1,0 +1,51 @@
+inverna{
+	iniciar invernadero{ $Nombre del invernadero
+	grados temperatura2$Declaracion de variables temperatura tipo
+	grados cels
+	vaho humedad2 $Declaracion de variables humedad tipo
+	vaho seco
+	luz lumenes3 $Declaracion de variables lumenes tipo luz
+
+	rutina {
+		temperatura2 = 40 $Variable temperatura
+		humedad2 = 70 $Variable humedad
+		riego (por 15 min, empezar 4 hr) $-Ciclo de riego, se
+		especifica por cuonto tiempo se riega y puede
+		especificarse cada cuanto tiempo y si debe iniciar despues
+		de iniciada la rutina-$
+		lumenes3 = si $Variable luz solar
+		luminosidad (si, complemento) $Variable luz solar
+	} durante 12 hr
+
+	rutina {
+		temperatura = 30
+		humedad = 80
+		riego (durante 5min, empezar 1hr)
+		luz = no
+		luminosidad = (no,no)
+		fertilizante = (liquido, 12hr)
+	} durante 12hr
+
+iniciar invernadero2{
+
+	rutina {
+		temperatura_ideal = 45
+		humedad = 80
+		comprobar ( temperatura_ideal < temperatura_actual){
+		rutina5()
+	} repetir 2hr
+
+	rutina {
+		riego {durante 25min}
+	} repetir 12hr
+	
+	rutina {
+		luz = si
+	} repetir 12hr
+
+	rutina {
+		luz = no
+	} repetir 12hr
+}
+
+}dero

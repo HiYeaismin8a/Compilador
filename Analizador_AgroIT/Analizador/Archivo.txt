@@ -1,0 +1,39 @@
+inverna ¨[
+
+	iniciar invernadero{
+		vaho varHum
+		grados varTemperatura
+		grados varTemperatura2
+		musica cancion1
+		grados temperatura2
+
+		rutina {
+			varHum = 50
+			varTemperatura = 20
+			varTemperatura2 = 35
+			temperatura2 = 40
+		}
+		rutina {
+			riego (durante 30 min, empezar 2 hr)
+		}repetir 20 hr
+
+	}
+
+	iniciar invernadero2{
+		rutina{
+			fertilizante(fertliq, 2 hr)
+		}repetir 24 hr
+		rutina{
+			varHum = 40
+		}repetir 5 hr
+	}
+	iniciar invernadero3{
+		rutina{
+			luminosidad(si,complemento)
+		}
+		rutina {
+			riego ( 15 min, empezar 1 hr)
+		}repetir 24 hr
+	}
+
+}dero
